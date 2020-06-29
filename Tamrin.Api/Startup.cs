@@ -12,6 +12,8 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.Extensions.Logging;
 using Tamrin.Data;
+using Tamrin.Data.Contracts;
+using Tamrin.Data.Repositories;
 
 namespace Tamrin.Api
 {
@@ -33,6 +35,10 @@ namespace Tamrin.Api
             {
                 options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnectionString"));
             });
+
+
+            services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
+            services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
         }
 
         // This method gets called by the runtime. Use this method to configure the HTTP request pipeline.
