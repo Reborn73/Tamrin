@@ -1,6 +1,6 @@
 ﻿using System.ComponentModel.DataAnnotations;
 
-namespace Tamrin.WebFramework.Api
+namespace Tamrin.Common
 {
     public enum ApiResultStatusCode
     {
@@ -17,6 +17,12 @@ namespace Tamrin.WebFramework.Api
         NotFound = 3,
 
         [Display(Name = "لیست خالی است.")]
-        ListEmpty = 4
+        ListEmpty = 4,
+
+        [Display(Name = "خطایی در پردازش رخ داده است")]
+        LogicError = 5,
+
+        [Display(Name = "خطای احراز هویت")]
+        UnAuthorized = 6
     }
-}
+}   
