@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel.DataAnnotations;
-using System.Linq;
+﻿using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
+using System;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.AspNetCore.Http;
-using Microsoft.AspNetCore.Mvc;
-using Microsoft.EntityFrameworkCore;
+using Tamrin.Api.Models;
 using Tamrin.Data.Contracts;
 using Tamrin.Entities.User;
-using Tamrin.WebFramework.Api;
 using Tamrin.WebFramework.Filters;
 
 namespace Tamrin.Api.Controllers
@@ -42,7 +38,30 @@ namespace Tamrin.Api.Controllers
             return Ok(user);
         }
 
+
+        [HttpPost("RegisterUser")]
+        public async Task<IActionResult> RegisterUser(RegisterUserDto userDto, CancellationToken cancellationToken)
+        {
+            var user = new User
+            {
+                UserName = userDto.UserName,
+                Email = userDto.Email,
+                GenderType = userDto.GenderType,
+                RoleId = 1,
+                FirstName = "تست نام",
+                LastName = "تست فامیلی",
+                AvatarName = "avatar.jpg",
+                ActiveCode = Guid.NewGuid().ToString().Replace("-", ""),
+                IsActive = true,
+                IsDeleted = false,
+                CreateDateTime = DateTime.Now,
+            };
+
+            await _userRepository.AddAsync(user, userDto.Password, cancellationToken);
+            return Ok(user);
+        }
+
     }
 
-    
+
 }
