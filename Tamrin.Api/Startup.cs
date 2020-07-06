@@ -3,7 +3,6 @@ using Microsoft.AspNetCore.Hosting;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
-using Microsoft.Extensions.Hosting;
 using Tamrin.Data;
 using Tamrin.Data.Contracts;
 using Tamrin.Data.Repositories;
@@ -27,9 +26,10 @@ namespace Tamrin.Api
 
             services.AddDbContext<ApplicationDbContext>(options =>
             {
-                options.UseSqlServer(Configuration.GetConnectionString("SqlServerConnectionString"));
+                options.UseSqlServer(Configuration.GetConnectionString("TamrinSqlServer"));
             });
 
+            services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
 
             services.AddScoped(typeof(IRepository<>), typeof(Repository<>));
             services.AddScoped(typeof(IUserRepository), typeof(UserRepository));
