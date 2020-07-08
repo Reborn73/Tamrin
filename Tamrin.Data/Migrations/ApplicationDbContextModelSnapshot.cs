@@ -238,11 +238,20 @@ namespace Tamrin.Data.Migrations
                     b.Property<long>("CourseId")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("Ip")
                         .IsRequired()
                         .HasColumnType("varchar(15)")
                         .HasMaxLength(15)
                         .IsUnicode(false);
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdateDateTime")
+                        .HasColumnType("datetime2");
 
                     b.HasKey("Id");
 
@@ -305,8 +314,17 @@ namespace Tamrin.Data.Migrations
                     b.Property<long>("Id")
                         .HasColumnType("bigint");
 
+                    b.Property<DateTime>("CreateDateTime")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("IsDeleted")
+                        .HasColumnType("bit");
+
                     b.Property<bool>("IsHide")
                         .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LastUpdateDateTime")
+                        .HasColumnType("datetime2");
 
                     b.Property<string>("Name")
                         .IsRequired()
@@ -332,7 +350,10 @@ namespace Tamrin.Data.Migrations
                         .HasColumnType("bigint")
                         .HasAnnotation("SqlServer:ValueGenerationStrategy", SqlServerValueGenerationStrategy.IdentityColumn);
 
-                    b.Property<string>("ActiveCode")
+                    b.Property<int>("AccessFailedCount")
+                        .HasColumnType("int");
+
+                    b.Property<string>("ActivationCode")
                         .IsRequired()
                         .HasColumnType("varchar(50)")
                         .HasMaxLength(50)
@@ -353,6 +374,9 @@ namespace Tamrin.Data.Migrations
                         .HasMaxLength(120)
                         .IsUnicode(false);
 
+                    b.Property<bool>("EmailConfirmed")
+                        .HasColumnType("bit");
+
                     b.Property<string>("FirstName")
                         .HasColumnType("nvarchar(30)")
                         .HasMaxLength(30)
@@ -360,9 +384,6 @@ namespace Tamrin.Data.Migrations
 
                     b.Property<int>("GenderType")
                         .HasColumnType("int");
-
-                    b.Property<bool>("IsActive")
-                        .HasColumnType("bit");
 
                     b.Property<bool>("IsDeleted")
                         .HasColumnType("bit");
@@ -375,6 +396,12 @@ namespace Tamrin.Data.Migrations
                     b.Property<DateTime?>("LastUpdateDateTime")
                         .HasColumnType("datetime2");
 
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime?>("LockoutEnd")
+                        .HasColumnType("datetime2");
+
                     b.Property<string>("PasswordHash")
                         .IsRequired()
                         .HasColumnType("varchar(200)")
@@ -383,6 +410,11 @@ namespace Tamrin.Data.Migrations
 
                     b.Property<long>("RoleId")
                         .HasColumnType("bigint");
+
+                    b.Property<Guid>("SecurityStamp")
+                        .HasColumnType("uniqueidentifier")
+                        .HasMaxLength(50)
+                        .IsUnicode(false);
 
                     b.Property<string>("UserName")
                         .IsRequired()

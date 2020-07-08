@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using System.ComponentModel.DataAnnotations;
@@ -6,7 +7,7 @@ using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.Course
 {
-    public class Course : AuditEntity
+    public class Course : IBaseEntity
     {
         #region Constructor
 
@@ -19,6 +20,7 @@ namespace Tamrin.Entities.Course
 
         #region Properties
 
+        public long Id { get; set; }
         public long TeacherId { get; set; }
         public string Title { get; set; }
         public PriceType CoursePriceType { get; set; }
@@ -27,6 +29,9 @@ namespace Tamrin.Entities.Course
         public string ImageName { get; set; }
         public CourseLevel CourseLevel { get; set; }
         public CourseStatus CourseStatus { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 

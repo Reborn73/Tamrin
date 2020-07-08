@@ -1,8 +1,8 @@
-﻿using System.Linq;
+﻿using Microsoft.EntityFrameworkCore;
+using System.Linq;
 using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
-using Microsoft.EntityFrameworkCore;
 using Tamrin.Common.Utilities;
 using Tamrin.Entities.Common;
 
@@ -65,7 +65,6 @@ namespace Tamrin.Data
 
                 foreach (var property in properties)
                 {
-                    var propName = property.Name;
                     var val = (string)property.GetValue(item.Entity, null);
 
                     if (val.HasValue())

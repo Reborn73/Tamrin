@@ -1,15 +1,11 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Drawing;
-using System.Text;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
-using Microsoft.EntityFrameworkCore.Metadata.Internal;
+using System;
 using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.Course
 {
-    public class Episode : AuditEntity
+    public class Episode : IBaseEntity
     {
         #region Constructor
 
@@ -22,12 +18,16 @@ namespace Tamrin.Entities.Course
 
         #region Properties
 
+        public long Id { get; set; }
         public long CourseId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public string FileName { get; set; }
         public PriceType EpisodePriceType { get; set; }
         public TimeSpan Time { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 
@@ -36,7 +36,6 @@ namespace Tamrin.Entities.Course
         public Course Course { get; set; }
 
         #endregion
-
     }
 
     public class EpisodeConfiguration : IEntityTypeConfiguration<Episode>

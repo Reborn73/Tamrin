@@ -1,11 +1,14 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Logging;
 using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tamrin.Api.Models;
 using Tamrin.Data.Contracts;
 using Tamrin.Entities.User;
+using Tamrin.Services.Services.Contracts;
 using Tamrin.WebFramework.Filters;
 
 namespace Tamrin.Api.Controllers
@@ -15,12 +18,68 @@ namespace Tamrin.Api.Controllers
     [ApiResultFilter]
     public class UserController : ControllerBase
     {
-        private readonly IUserRepository _userRepository;
+        #region Constructor
 
-        public UserController(IUserRepository userRepository)
+        private readonly IUserRepository _userRepository;
+        private readonly IJwtService _jwtService;
+        private readonly ILogger<UserController> _logger;
+
+        public UserController(IUserRepository userRepository, IJwtService jwtService, ILogger<UserController> logger)
         {
-            this._userRepository = userRepository;
+            _userRepository = userRepository;
+            _jwtService = jwtService;
+            _logger = logger;
         }
+
+        #endregion
+
+        #region SignIn User
+
+        [AllowAnonymous]
+        [HttpPost("SignIn")]
+        public async Task<IActionResult> SignIn(SignInUserDto signInUser, CancellationToken cancellationToken)
+        {
+            var user = await _userRepository.GetUserByEmailAndPass(signInUser.Email, signInUser.Password, cancellationToken);
+
+            var jwt = await _jwtService.GenerateAsync(user);
+
+            return Ok(jwt);
+        }
+
+
+        #endregion
+
+        #region Register User
+
+        [AllowAnonymous]
+        [HttpPost("RegisterUser")]
+        public async Task<IActionResult> RegisterUser(RegisterUserDto userDto, CancellationToken cancellationToken)
+        {
+            var user = new User
+            {
+                RoleId = 5,
+                UserName = userDto.UserName.Trim(),
+                Email = userDto.Email.ToLower().Trim(),
+                GenderType = userDto.GenderType,
+                FirstName = "تست نام",
+                LastName = "تست فامیلی",
+                AvatarName = "avatar.jpg",
+                ActivationCode = Guid.NewGuid().ToString().Replace("-", ""),
+                IsDeleted = false,
+                CreateDateTime = DateTime.Now,
+                AccessFailedCount = 0,
+                EmailConfirmed = false,
+                LockoutEnabled = false
+            };
+
+            await _userRepository.AddAsync(user, userDto.Password, cancellationToken);
+
+            return Ok();
+        }
+
+        #endregion
+
+        #region Additional Method
 
         [HttpGet]
         public async Task<IActionResult> Get(CancellationToken cancellationToken)
@@ -30,6 +89,7 @@ namespace Tamrin.Api.Controllers
         }
 
         [HttpGet("{id:int}")]
+        [Authorize(Roles = "administrator")]
         public async Task<IActionResult> Get(long id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(cancellationToken, id);
@@ -38,29 +98,7 @@ namespace Tamrin.Api.Controllers
             return Ok(user);
         }
 
-
-        [HttpPost("RegisterUser")]
-        public async Task<IActionResult> RegisterUser(RegisterUserDto userDto, CancellationToken cancellationToken)
-        {
-            var user = new User
-            {
-                UserName = userDto.UserName,
-                Email = userDto.Email,
-                GenderType = userDto.GenderType,
-                RoleId = 1,
-                FirstName = "تست نام",
-                LastName = "تست فامیلی",
-                AvatarName = "avatar.jpg",
-                ActiveCode = Guid.NewGuid().ToString().Replace("-", ""),
-                IsActive = true,
-                IsDeleted = false,
-                CreateDateTime = DateTime.Now,
-            };
-
-            await _userRepository.AddAsync(user, userDto.Password, cancellationToken);
-            return Ok(user);
-        }
-
+        #endregion
     }
 
 

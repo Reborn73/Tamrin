@@ -13,12 +13,12 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     ParentId = table.Column<long>(nullable: true),
                     Name = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-                    Title = table.Column<string>(maxLength: 50, nullable: false)
+                    Title = table.Column<string>(maxLength: 50, nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -38,7 +38,10 @@ namespace Tamrin.Data.Migrations
                     Id = table.Column<long>(nullable: false),
                     Name = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
                     Title = table.Column<string>(maxLength: 50, nullable: false),
-                    IsHide = table.Column<bool>(nullable: false)
+                    IsHide = table.Column<bool>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -51,19 +54,23 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     RoleId = table.Column<long>(nullable: false),
                     FirstName = table.Column<string>(maxLength: 30, nullable: true),
                     LastName = table.Column<string>(maxLength: 40, nullable: true),
-                    GenderType = table.Column<int>(nullable: false),
                     UserName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
                     Email = table.Column<string>(unicode: false, maxLength: 120, nullable: false),
+                    EmailConfirmed = table.Column<bool>(nullable: false),
                     PasswordHash = table.Column<string>(unicode: false, maxLength: 200, nullable: false),
-                    IsActive = table.Column<bool>(nullable: false),
+                    SecurityStamp = table.Column<Guid>(unicode: false, maxLength: 50, nullable: false),
+                    LockoutEnd = table.Column<DateTime>(nullable: true),
+                    LockoutEnabled = table.Column<bool>(nullable: false),
+                    AccessFailedCount = table.Column<int>(nullable: false),
+                    GenderType = table.Column<int>(nullable: false),
                     AvatarName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
-                    ActiveCode = table.Column<string>(unicode: false, maxLength: 50, nullable: false)
+                    ActivationCode = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -82,9 +89,6 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     TeacherId = table.Column<long>(nullable: false),
                     Title = table.Column<string>(maxLength: 75, nullable: false),
                     CoursePriceType = table.Column<int>(nullable: false),
@@ -92,7 +96,10 @@ namespace Tamrin.Data.Migrations
                     Price = table.Column<int>(nullable: false),
                     ImageName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
                     CourseLevel = table.Column<int>(nullable: false),
-                    CourseStatus = table.Column<int>(nullable: false)
+                    CourseStatus = table.Column<int>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -111,14 +118,14 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     UserId = table.Column<long>(nullable: false),
                     CourseId = table.Column<long>(nullable: false),
                     ParentId = table.Column<long>(nullable: true),
                     Text = table.Column<string>(maxLength: 400, nullable: false),
-                    IsConfirmed = table.Column<bool>(nullable: false)
+                    IsConfirmed = table.Column<bool>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -149,14 +156,14 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     UserId = table.Column<long>(nullable: false),
                     CourseId = table.Column<long>(nullable: false),
                     ImageAndSoundQuality = table.Column<int>(nullable: false),
                     MasterIsMasteryOfTheSubject = table.Column<int>(nullable: false),
-                    CourseQuality = table.Column<int>(nullable: false)
+                    CourseQuality = table.Column<int>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -181,11 +188,11 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
+                    CourseId = table.Column<long>(nullable: false),
+                    CategoryId = table.Column<long>(nullable: false),
                     CreateDateTime = table.Column<DateTime>(nullable: false),
                     LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
-                    CourseId = table.Column<long>(nullable: false),
-                    CategoryId = table.Column<long>(nullable: false)
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -211,7 +218,10 @@ namespace Tamrin.Data.Migrations
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
                     CourseId = table.Column<long>(nullable: false),
-                    Ip = table.Column<string>(unicode: false, maxLength: 15, nullable: false)
+                    Ip = table.Column<string>(unicode: false, maxLength: 15, nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {
@@ -230,15 +240,15 @@ namespace Tamrin.Data.Migrations
                 {
                     Id = table.Column<long>(nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    CreateDateTime = table.Column<DateTime>(nullable: false),
-                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
-                    IsDeleted = table.Column<bool>(nullable: false),
                     CourseId = table.Column<long>(nullable: false),
                     Title = table.Column<string>(maxLength: 45, nullable: false),
                     Description = table.Column<string>(maxLength: 150, nullable: true),
                     FileName = table.Column<string>(unicode: false, maxLength: 50, nullable: false),
                     EpisodePriceType = table.Column<int>(nullable: false),
-                    Time = table.Column<TimeSpan>(nullable: false)
+                    Time = table.Column<TimeSpan>(nullable: false),
+                    CreateDateTime = table.Column<DateTime>(nullable: false),
+                    LastUpdateDateTime = table.Column<DateTime>(nullable: true),
+                    IsDeleted = table.Column<bool>(nullable: false)
                 },
                 constraints: table =>
                 {

@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.Course
 {
-    public class CourseScore : AuditEntity
+    public class CourseScore : IBaseEntity
     {
         #region Constructor
 
@@ -17,11 +18,15 @@ namespace Tamrin.Entities.Course
 
         #region Properties
 
+        public long Id { get; set; }
         public long UserId { get; set; }
         public long CourseId { get; set; }
         public int ImageAndSoundQuality { get; set; }
         public int MasterIsMasteryOfTheSubject { get; set; }
         public int CourseQuality { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 

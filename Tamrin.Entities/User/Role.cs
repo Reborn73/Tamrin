@@ -1,11 +1,12 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
+using System;
 using System.Collections.Generic;
 using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.User
 {
-    public class Role : BaseEntity
+    public class Role : IBaseEntity
     {
         #region Constructor
 
@@ -18,9 +19,13 @@ namespace Tamrin.Entities.User
 
         #region Properties
 
+        public long Id { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
         public bool IsHide { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 
@@ -42,6 +47,9 @@ namespace Tamrin.Entities.User
             builder.Property(r => r.Name).IsRequired().HasMaxLength(50).IsUnicode(false);
             builder.Property(r => r.Title).IsRequired().HasMaxLength(50).IsUnicode();
             builder.Property(r => r.IsHide).IsRequired();
+            builder.Property(r => r.CreateDateTime).IsRequired();
+            builder.Property(r => r.LastUpdateDateTime).IsRequired(false);
+            builder.Property(r => r.IsDeleted).IsRequired();
 
             #endregion
 

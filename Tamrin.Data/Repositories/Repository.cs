@@ -34,6 +34,7 @@ namespace Tamrin.Data.Repositories
         public virtual async Task AddAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
+            entity.CreateDateTime = DateTime.Now;
             await Entities.AddAsync(entity, cancellationToken).ConfigureAwait(false);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -42,6 +43,10 @@ namespace Tamrin.Data.Repositories
         public virtual async Task AddRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
+            foreach (var entity in entities)
+            {
+                entity.CreateDateTime = DateTime.Now;
+            }
             await Entities.AddRangeAsync(entities, cancellationToken).ConfigureAwait(false);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -50,6 +55,7 @@ namespace Tamrin.Data.Repositories
         public virtual async Task UpdateAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
+            entity.LastUpdateDateTime = DateTime.Now;
             Entities.Update(entity);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -58,6 +64,10 @@ namespace Tamrin.Data.Repositories
         public virtual async Task UpdateRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
+            foreach (var entity in entities)
+            {
+                entity.LastUpdateDateTime = DateTime.Now;
+            }
             Entities.UpdateRange(entities);
             if (saveNow)
                 await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
@@ -66,17 +76,25 @@ namespace Tamrin.Data.Repositories
         public virtual async Task DeleteAsync(TEntity entity, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
-            Entities.Remove(entity);
-            if (saveNow)
-                await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            entity.IsDeleted = true;
+            await UpdateAsync(entity, cancellationToken, saveNow);
+            //Entities.Remove(entity);
+            //if (saveNow)
+            //    await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
 
         public virtual async Task DeleteRangeAsync(IEnumerable<TEntity> entities, CancellationToken cancellationToken, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
-            Entities.RemoveRange(entities);
-            if (saveNow)
-                await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
+            foreach (var entity in entities)
+            {
+                entity.IsDeleted = true;
+            }
+
+            await UpdateRangeAsync(entities, cancellationToken, saveNow);
+            //Entities.RemoveRange(entities);
+            //if (saveNow)
+            //    await DbContext.SaveChangesAsync(cancellationToken).ConfigureAwait(false);
         }
         #endregion
 
@@ -89,6 +107,7 @@ namespace Tamrin.Data.Repositories
         public virtual void Add(TEntity entity, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
+            entity.CreateDateTime = DateTime.Now;
             Entities.Add(entity);
             if (saveNow)
                 DbContext.SaveChanges();
@@ -97,6 +116,10 @@ namespace Tamrin.Data.Repositories
         public virtual void AddRange(IEnumerable<TEntity> entities, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
+            foreach (var entity in entities)
+            {
+                entity.CreateDateTime = DateTime.Now;
+            }
             Entities.AddRange(entities);
             if (saveNow)
                 DbContext.SaveChanges();
@@ -105,6 +128,7 @@ namespace Tamrin.Data.Repositories
         public virtual void Update(TEntity entity, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
+            entity.LastUpdateDateTime = DateTime.Now;
             Entities.Update(entity);
             if (saveNow)
                 DbContext.SaveChanges();
@@ -113,6 +137,10 @@ namespace Tamrin.Data.Repositories
         public virtual void UpdateRange(IEnumerable<TEntity> entities, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
+            foreach (var entity in entities)
+            {
+                entity.LastUpdateDateTime = DateTime.Now;
+            }
             Entities.UpdateRange(entities);
             if (saveNow)
                 DbContext.SaveChanges();
@@ -121,17 +149,24 @@ namespace Tamrin.Data.Repositories
         public virtual void Delete(TEntity entity, bool saveNow = true)
         {
             Assert.NotNull(entity, nameof(entity));
-            Entities.Remove(entity);
-            if (saveNow)
-                DbContext.SaveChanges();
+            entity.IsDeleted = true;
+            Update(entity, saveNow);
+            //Entities.Remove(entity);
+            //if (saveNow)
+            //    DbContext.SaveChanges();
         }
 
         public virtual void DeleteRange(IEnumerable<TEntity> entities, bool saveNow = true)
         {
             Assert.NotNull(entities, nameof(entities));
-            Entities.RemoveRange(entities);
-            if (saveNow)
-                DbContext.SaveChanges();
+            foreach (var entity in entities)
+            {
+                entity.IsDeleted = true;
+            }
+            UpdateRange(entities, saveNow);
+            //Entities.RemoveRange(entities);
+            //if (saveNow)
+            //    DbContext.SaveChanges();
         }
         #endregion
 

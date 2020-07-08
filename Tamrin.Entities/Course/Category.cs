@@ -7,7 +7,7 @@ using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.Course
 {
-    public class Category : AuditEntity
+    public class Category : IBaseEntity
     {
         #region Constructor
 
@@ -20,9 +20,13 @@ namespace Tamrin.Entities.Course
 
         #region Properties
 
+        public long Id { get; set; }
         public long? ParentId { get; set; }
         public string Name { get; set; }
         public string Title { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 

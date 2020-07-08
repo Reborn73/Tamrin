@@ -1,10 +1,11 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using System;
+using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Metadata.Builders;
 using Tamrin.Entities.Common;
 
 namespace Tamrin.Entities.Course
 {
-    public class CourseSelectedCategory : AuditEntity
+    public class CourseSelectedCategory : IBaseEntity
     {
         #region Constructor
 
@@ -17,8 +18,12 @@ namespace Tamrin.Entities.Course
 
         #region Properties
 
+        public long Id { get; set; }
         public long CourseId { get; set; }
         public long CategoryId { get; set; }
+        public DateTime CreateDateTime { get; set; }
+        public DateTime? LastUpdateDateTime { get; set; }
+        public bool IsDeleted { get; set; }
 
         #endregion
 
