@@ -5,13 +5,14 @@ using System.Linq;
 using System.Linq.Expressions;
 using System.Threading;
 using System.Threading.Tasks;
+using Tamrin.Common;
 using Tamrin.Common.Utilities;
 using Tamrin.Data.Contracts;
 using Tamrin.Entities.Common;
 
 namespace Tamrin.Data.Repositories
 {
-    public class Repository<TEntity> : IRepository<TEntity>
+    public class Repository<TEntity> : IRepository<TEntity>,IScopedDependency
         where TEntity : class, IBaseEntity
     {
         protected readonly ApplicationDbContext DbContext;

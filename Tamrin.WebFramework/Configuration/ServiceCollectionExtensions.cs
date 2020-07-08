@@ -1,5 +1,8 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
 using System;
@@ -11,6 +14,7 @@ using System.Threading.Tasks;
 using Tamrin.Common;
 using Tamrin.Common.Exceptions;
 using Tamrin.Common.Utilities;
+using Tamrin.Data;
 using Tamrin.Data.Contracts;
 
 namespace Tamrin.WebFramework.Configuration
@@ -89,6 +93,25 @@ namespace Tamrin.WebFramework.Configuration
             });
         }
 
+        public static void AddDbContext(this IServiceCollection services, IConfiguration configuration)
+        {
+            services.AddDbContext<ApplicationDbContext>(options =>
+            {
+                options.UseSqlServer(configuration.GetConnectionString("TamrinSqlServer"));
+            });
+        }
+
+        public static void AddMinimalMvc(this IServiceCollection services)
+        {
+            services.AddControllers(options =>
+            {
+                options.Filters.Add(new AuthorizeFilter()); //Apply AuthorizeFilter as global filter to all actions
+            }).AddNewtonsoftJson(option =>
+            {
+                //option.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
+                option.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+            });
+        }
 
     }
 }

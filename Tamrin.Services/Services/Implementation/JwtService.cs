@@ -13,7 +13,7 @@ using Tamrin.Services.Services.Contracts;
 
 namespace Tamrin.Services.Services.Implementation
 {
-    public class JwtService : IJwtService
+    public class JwtService : IJwtService,IScopedDependency
     {
         #region Constructor
 

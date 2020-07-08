@@ -2,6 +2,7 @@
 using System;
 using System.Threading;
 using System.Threading.Tasks;
+using Tamrin.Common;
 using Tamrin.Common.Exceptions;
 using Tamrin.Common.Utilities;
 using Tamrin.Data.Contracts;
@@ -9,7 +10,7 @@ using Tamrin.Entities.User;
 
 namespace Tamrin.Data.Repositories
 {
-    public class UserRepository : Repository<User>, IUserRepository
+    public class UserRepository : Repository<User>, IUserRepository, IScopedDependency
     {
         public UserRepository(ApplicationDbContext dbContext) : base(dbContext)
         {

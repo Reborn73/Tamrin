@@ -4,6 +4,7 @@ using Microsoft.Extensions.Logging;
 using NLog.Web;
 using System;
 using System.Net;
+using Autofac.Extensions.DependencyInjection;
 
 namespace Tamrin.Api
 {
@@ -32,6 +33,7 @@ namespace Tamrin.Api
 
         public static IHostBuilder CreateHostBuilder(string[] args) =>
             Host.CreateDefaultBuilder(args)
+                .UseServiceProviderFactory(new AutofacServiceProviderFactory())
                 .ConfigureLogging(options => options.ClearProviders())
                 .UseNLog()
                 .ConfigureWebHostDefaults(webBuilder =>
