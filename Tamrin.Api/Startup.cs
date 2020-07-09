@@ -1,10 +1,12 @@
 using Autofac;
+using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Tamrin.Common;
 using Tamrin.WebFramework.Configuration;
+using Tamrin.WebFramework.Mapping;
 using Tamrin.WebFramework.Middlewares;
 
 namespace Tamrin.Api
@@ -22,6 +24,7 @@ namespace Tamrin.Api
 
         public void ConfigureServices(IServiceCollection services)
         {
+            services.InitializeAutoMapper();
             services.Configure<SiteSettings>(Configuration.GetSection(nameof(Common.SiteSettings)));
             services.AddMinimalMvc();
             services.AddDbContext(Configuration);

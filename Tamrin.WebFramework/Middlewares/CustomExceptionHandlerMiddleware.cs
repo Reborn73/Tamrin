@@ -12,6 +12,7 @@ using System.Security.Authentication;
 using System.Threading.Tasks;
 using Tamrin.Common;
 using Tamrin.Common.Exceptions;
+using Tamrin.Common.Utilities;
 using Tamrin.WebFramework.Api;
 
 namespace Tamrin.WebFramework.Middlewares

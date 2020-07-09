@@ -1,6 +1,8 @@
 ﻿using Autofac;
 using Tamrin.Common;
 using Tamrin.Data;
+using Tamrin.Data.Contracts;
+using Tamrin.Data.Repositories;
 using Tamrin.Entities.Common;
 using Tamrin.Services.Services.Contracts;
 
@@ -15,6 +17,8 @@ namespace Tamrin.WebFramework.Configuration
 
         private static void AddDependencyInjectionServices(this ContainerBuilder containerBuilder)
         {
+            containerBuilder.RegisterGeneric(typeof(Repository<>)).As(typeof(IRepository<>)).InstancePerLifetimeScope();
+
             var commonAssembly = typeof(SiteSettings).Assembly;
             var entitiesAssembly = typeof(IBaseEntity).Assembly;
             var dataAssembly = typeof(ApplicationDbContext).Assembly;

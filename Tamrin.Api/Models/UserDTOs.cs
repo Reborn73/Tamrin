@@ -1,7 +1,11 @@
-﻿using System;
+﻿using AutoMapper;
+using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
+using AutoMapper.Features;
 using Tamrin.Entities.User;
+using Tamrin.WebFramework.Api;
+using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;
 
 namespace Tamrin.Api.Models
 {
@@ -19,7 +23,7 @@ namespace Tamrin.Api.Models
         public string Password { get; set; }
     }
 
-    public class RegisterUserDto : IValidatableObject
+    public class RegisterUserDto : BaseDto<RegisterUserDto, User>, IValidatableObject
     {
         [Display(Name = "نام کاربری")]
         [Required(ErrorMessage = "{0} را وارد نمایید.", AllowEmptyStrings = false)]
@@ -49,6 +53,11 @@ namespace Tamrin.Api.Models
                 yield return new ValidationResult("نام کاربری نمی تواند test باشد.", new[] { nameof(UserName) });
             if (Password.Equals("123"))
                 yield return new ValidationResult("کلمه عبور نمی تواند ۱۲۳ باشد.", new[] { nameof(Password) });
+        }
+
+        public override void CustomMappings(IMappingExpression<User, RegisterUserDto> mapping)
+        {
+            base.CustomMappings(mapping);
         }
     }
 }
