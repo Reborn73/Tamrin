@@ -1,24 +1,21 @@
-﻿using System.Threading;
-using System.Threading.Tasks;
-using AutoMapper;
-using Microsoft.AspNetCore.Authorization;
+﻿using AutoMapper;
 using Microsoft.AspNetCore.Mvc;
+using System.Threading;
+using System.Threading.Tasks;
 using Tamrin.Api.Models;
 using Tamrin.Data.Contracts;
 using Tamrin.Entities.Course;
-using Tamrin.WebFramework.Api;
 
-namespace Tamrin.Api.Controllers.V1
+namespace Tamrin.Api.Controllers.V2
 {
     /// <summary>
     /// 
     /// </summary>
-    [AllowAnonymous]
-    [ApiVersion("1")]
-    public class CategoryController : CrudController<CrudCategoryRequestDto, CrudCategoryResponseDto, Category>
+    [ApiVersion("2")]
+    public class CategoryController : V1.CategoryController
     {
         /// <summary>
-        /// 
+        /// Constructor
         /// </summary>
         /// <param name="repository"></param>
         /// <param name="mapper"></param>
@@ -35,6 +32,7 @@ namespace Tamrin.Api.Controllers.V1
         {
             return base.Get(cancellationToken);
         }
+
 
         /// <summary>
         /// 

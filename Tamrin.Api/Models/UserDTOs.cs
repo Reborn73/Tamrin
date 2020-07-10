@@ -2,7 +2,6 @@
 using System;
 using System.Collections.Generic;
 using System.ComponentModel.DataAnnotations;
-using AutoMapper.Features;
 using Tamrin.Entities.User;
 using Tamrin.WebFramework.Api;
 using ValidationContext = System.ComponentModel.DataAnnotations.ValidationContext;

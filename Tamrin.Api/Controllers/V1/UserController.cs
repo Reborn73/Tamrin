@@ -35,13 +35,19 @@ namespace Tamrin.Api.Controllers.V1
 
         #region SignIn User
 
+        /// <summary>
+        /// This Method For SignIn User
+        /// </summary>
+        /// <param name="signInUser">This Dto For Get Email And Password </param>
+        /// <param name="cancellationToken"></param>
+        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("SignIn")]
         public virtual async Task<IActionResult> SignIn(SignInUserDto signInUser, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByEmailAndPass(signInUser.Email, signInUser.Password, cancellationToken);
 
-            var jwt = await _jwtService.GenerateAsync(user);
+            var jwt = _jwtService.Generate(user);
 
             return Ok(jwt);
         }

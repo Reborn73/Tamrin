@@ -6,14 +6,13 @@ using System.Collections.Generic;
 using System.IdentityModel.Tokens.Jwt;
 using System.Security.Claims;
 using System.Text;
-using System.Threading.Tasks;
 using Tamrin.Common;
 using Tamrin.Entities.User;
 using Tamrin.Services.Services.Contracts;
 
 namespace Tamrin.Services.Services.Implementation
 {
-    public class JwtService : IJwtService,IScopedDependency
+    public class JwtService : IJwtService, IScopedDependency
     {
         #region Constructor
 
@@ -26,7 +25,7 @@ namespace Tamrin.Services.Services.Implementation
 
         #endregion
 
-        public async Task<string> GenerateAsync(User user)
+        public string Generate(User user)
         {
             var secretKey = Encoding.UTF8.GetBytes(_siteSettings.JwtSettings.SecretKey);
             var encryptionKey = Encoding.UTF8.GetBytes(_siteSettings.JwtSettings.EncryptionKey);
@@ -34,7 +33,7 @@ namespace Tamrin.Services.Services.Implementation
             var signingCredentials = new SigningCredentials(new SymmetricSecurityKey(secretKey), SecurityAlgorithms.HmacSha256Signature);
             var encryptingCredentials = new EncryptingCredentials(new SymmetricSecurityKey(encryptionKey), SecurityAlgorithms.Aes128KW, SecurityAlgorithms.Aes128CbcHmacSha256);
 
-            var claims = await GetClaimsAsync(user);
+            var claims = GetClaims(user);
 
             var descriptor = new SecurityTokenDescriptor
             {
@@ -59,7 +58,7 @@ namespace Tamrin.Services.Services.Implementation
             return jwt;
         }
 
-        private async Task<IEnumerable<Claim>> GetClaimsAsync(User user)
+        private IEnumerable<Claim> GetClaims(User user)
         {
             var securityStampClaimType = new ClaimsIdentityOptions().SecurityStampClaimType;
 

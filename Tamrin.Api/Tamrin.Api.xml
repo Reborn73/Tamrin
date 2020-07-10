@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<doc>
+    <assembly>
+        <name>Tamrin.Api</name>
+    </assembly>
+    <members>
+        <member name="M:Tamrin.Api.Controllers.V1.UserController.SignIn(Tamrin.Api.Models.SignInUserDto,System.Threading.CancellationToken)">
+            <summary>
+            This Method For SignIn User
+            </summary>
+            <param name="signInUser">This Dto For Get Email And Password </param>
+            <param name="cancellationToken"></param>
+            <returns></returns>
+        </member>
+    </members>
+</doc>
