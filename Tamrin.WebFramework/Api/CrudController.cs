@@ -9,14 +9,10 @@ using Tamrin.Common.Exceptions;
 using Tamrin.Common.Utilities;
 using Tamrin.Data.Contracts;
 using Tamrin.Entities.Common;
-using Tamrin.WebFramework.Filters;
 
 namespace Tamrin.WebFramework.Api
 {
-    [ApiController]
-    [ApiResultFilter]
-    [Route("api/[controller]")]
-    public class CrudController<TRequestDto, TResponseDto, TEntity> : ControllerBase
+    public class CrudController<TRequestDto, TResponseDto, TEntity> : BaseController
     where TRequestDto : BaseDto<TRequestDto, TEntity, long>, new()
     where TResponseDto : BaseDto<TResponseDto, TEntity, long>, new()
     where TEntity : class, IBaseEntity, new()

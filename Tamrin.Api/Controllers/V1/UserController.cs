@@ -3,23 +3,18 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
-using System;
 using System.Threading;
 using System.Threading.Tasks;
 using Tamrin.Api.Models;
 using Tamrin.Data.Contracts;
-using Tamrin.Entities.Course;
-using Tamrin.Entities.User;
 using Tamrin.Services.Services.Contracts;
-using Tamrin.WebFramework.Filters;
+using Tamrin.WebFramework.Api;
 
-namespace Tamrin.Api.Controllers
+namespace Tamrin.Api.Controllers.V1
 {
-    [Route("api/[controller]")]
-    [ApiController]
-    [ApiResultFilter]
     [AllowAnonymous]
-    public class UserController : ControllerBase
+    [ApiVersion("1")]
+    public class UserController : BaseController
     {
         #region Constructor
 
@@ -42,7 +37,7 @@ namespace Tamrin.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("SignIn")]
-        public async Task<IActionResult> SignIn(SignInUserDto signInUser, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> SignIn(SignInUserDto signInUser, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetUserByEmailAndPass(signInUser.Email, signInUser.Password, cancellationToken);
 
@@ -58,7 +53,7 @@ namespace Tamrin.Api.Controllers
 
         [AllowAnonymous]
         [HttpPost("RegisterUser")]
-        public async Task<IActionResult> RegisterUser(RegisterUserDto userDto, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> RegisterUser(RegisterUserDto userDto, CancellationToken cancellationToken)
         {
             var user = userDto.ToEntity(_mapper);
 
@@ -89,7 +84,7 @@ namespace Tamrin.Api.Controllers
         #region Additional Method
 
         [HttpGet]
-        public async Task<IActionResult> Get(CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> Get(CancellationToken cancellationToken)
         {
             var users = await _userRepository.TableNoTracking.ToListAsync(cancellationToken);
             return Ok(users);
@@ -97,7 +92,7 @@ namespace Tamrin.Api.Controllers
 
         [HttpGet("{id:int}")]
         [Authorize(Roles = "administrator")]
-        public async Task<IActionResult> Get(long id, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> Get(long id, CancellationToken cancellationToken)
         {
             var user = await _userRepository.GetByIdAsync(cancellationToken, id);
             if (user == null)

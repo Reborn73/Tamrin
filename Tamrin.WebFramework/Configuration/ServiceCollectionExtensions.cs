@@ -1,6 +1,7 @@
 ﻿using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc.Authorization;
+using Microsoft.AspNetCore.Mvc.Versioning;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
@@ -113,5 +114,13 @@ namespace Tamrin.WebFramework.Configuration
             });
         }
 
+        public static void AddCustomApiVersioning(this IServiceCollection services)
+        {
+            services.AddApiVersioning(options =>
+            {
+                options.ApiVersionReader = new UrlSegmentApiVersionReader();
+                options.ReportApiVersions = true;
+            });
+        }
     }
 }

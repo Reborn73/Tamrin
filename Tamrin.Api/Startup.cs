@@ -1,5 +1,4 @@
 using Autofac;
-using AutoMapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
@@ -30,6 +29,7 @@ namespace Tamrin.Api
             services.AddDbContext(Configuration);
             services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
             services.AddJwtAuthentication(_siteSettings.JwtSettings);
+            services.AddCustomApiVersioning();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
