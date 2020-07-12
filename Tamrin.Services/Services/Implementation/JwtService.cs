@@ -12,6 +12,22 @@ using Tamrin.Services.Services.Contracts;
 
 namespace Tamrin.Services.Services.Implementation
 {
+    public class AccessToken
+    {
+        public string access_token { get; set; }
+        public string refresh_token { get; set; }
+        public string token_type { get; set; }
+        public int expires_in { get; set; }
+
+        public AccessToken(JwtSecurityToken securityToken)
+        {
+            access_token = new JwtSecurityTokenHandler().WriteToken(securityToken);
+            token_type = "Bearer";
+            expires_in = (int)(securityToken.ValidTo - DateTime.UtcNow).TotalSeconds;
+        }
+    }
+
+
     public class JwtService : IJwtService, IScopedDependency
     {
         #region Constructor
@@ -25,7 +41,7 @@ namespace Tamrin.Services.Services.Implementation
 
         #endregion
 
-        public string Generate(User user)
+        public AccessToken Generate(User user)
         {
             var secretKey = Encoding.UTF8.GetBytes(_siteSettings.JwtSettings.SecretKey);
             var encryptionKey = Encoding.UTF8.GetBytes(_siteSettings.JwtSettings.EncryptionKey);
@@ -52,10 +68,10 @@ namespace Tamrin.Services.Services.Implementation
             JwtSecurityTokenHandler.DefaultOutboundClaimTypeMap.Clear();
 
             var tokenHandler = new JwtSecurityTokenHandler();
-            var securityToken = tokenHandler.CreateToken(descriptor);
-            var jwt = tokenHandler.WriteToken(securityToken);
+            var securityToken = tokenHandler.CreateJwtSecurityToken(descriptor);
+            //var jwt = tokenHandler.WriteToken(securityToken);
 
-            return jwt;
+            return new AccessToken(securityToken);
         }
 
         private IEnumerable<Claim> GetClaims(User user)

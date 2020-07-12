@@ -7,7 +7,6 @@ using Tamrin.Common;
 using Tamrin.WebFramework.Configuration;
 using Tamrin.WebFramework.Mapping;
 using Tamrin.WebFramework.Middlewares;
-using Tamrin.WebFramework.Swagger;
 
 namespace Tamrin.Api
 {
@@ -31,7 +30,6 @@ namespace Tamrin.Api
             services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
             services.AddJwtAuthentication(_siteSettings.JwtSettings);
             services.AddCustomApiVersioning();
-            services.AddSwagger();
         }
 
         public void ConfigureContainer(ContainerBuilder builder)
@@ -51,8 +49,6 @@ namespace Tamrin.Api
 
             app.UseAuthentication();
             app.UseAuthorization();
-
-            app.UseSwaggerAndUi();
 
             app.UseEndpoints(endpoints =>
             {

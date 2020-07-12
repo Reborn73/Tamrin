@@ -3,16 +3,20 @@ using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Logging;
+using System;
+using System.Reflection;
 using System.Threading;
 using System.Threading.Tasks;
+using Microsoft.AspNetCore.Http;
+using Swashbuckle.AspNetCore.Filters;
 using Tamrin.Api.Models;
+using Tamrin.Common.Exceptions;
 using Tamrin.Data.Contracts;
 using Tamrin.Services.Services.Contracts;
 using Tamrin.WebFramework.Api;
 
 namespace Tamrin.Api.Controllers.V1
 {
-    [AllowAnonymous]
     [ApiVersion("1")]
     public class UserController : BaseController
     {
@@ -35,21 +39,18 @@ namespace Tamrin.Api.Controllers.V1
 
         #region SignIn User
 
-        /// <summary>
-        /// This Method For SignIn User
-        /// </summary>
-        /// <param name="signInUser">This Dto For Get Email And Password </param>
-        /// <param name="cancellationToken"></param>
-        /// <returns></returns>
         [AllowAnonymous]
         [HttpPost("SignIn")]
-        public virtual async Task<IActionResult> SignIn(SignInUserDto signInUser, CancellationToken cancellationToken)
+        public virtual async Task<IActionResult> SignIn([FromForm] SignInUserDto signInUser, CancellationToken cancellationToken)
         {
-            var user = await _userRepository.GetUserByEmailAndPass(signInUser.Email, signInUser.Password, cancellationToken);
+            if (!signInUser.Grant_Type.Equals("password", StringComparison.OrdinalIgnoreCase))
+                throw new AppException("OAuth Flow Is Not Password");
+
+            var user = await _userRepository.GetUserByEmailAndPass(signInUser.UserName, signInUser.Password, cancellationToken);
 
             var jwt = _jwtService.Generate(user);
 
-            return Ok(jwt);
+            return new JsonResult(jwt);
         }
 
 

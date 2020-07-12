@@ -13,13 +13,27 @@ namespace Tamrin.Api.Models
         [Display(Name = "ایمیل")]
         [Required(ErrorMessage = "{0} را وارد نمایید.", AllowEmptyStrings = false)]
         [MaxLength(120, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد.")]
-        [EmailAddress(ErrorMessage = "فرمت ایمیل نامعتبر است.")]
-        public string Email { get; set; }
+        public string UserName { get; set; }
 
         [Display(Name = "کلمه عبور")]
         [Required(ErrorMessage = "{0} را وارد نمایید.", AllowEmptyStrings = false)]
         [MaxLength(100, ErrorMessage = "{0} نمیتواند بیشتر از {1} کاراکتر باشد.")]
         public string Password { get; set; }
+
+
+        public string Grant_Type { get; set; }
+
+
+        public string Refresh_Token { get; set; }
+
+
+        public string Scope { get; set; }
+
+
+        public string Client_Id { get; set; }
+
+
+        public string Client_Secret { get; set; }
     }
 
     public class RegisterUserDto : BaseDto<RegisterUserDto, User>, IValidatableObject

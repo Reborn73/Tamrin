@@ -1,9 +1,10 @@
 ﻿using Tamrin.Entities.User;
+using Tamrin.Services.Services.Implementation;
 
 namespace Tamrin.Services.Services.Contracts
 {
     public interface IJwtService
     {
-        string Generate(User user);
+        AccessToken Generate(User user);
     }
 }

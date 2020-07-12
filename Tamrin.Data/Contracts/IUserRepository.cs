@@ -6,7 +6,7 @@ namespace Tamrin.Data.Contracts
 {
     public interface IUserRepository : IRepository<User>
     {
-        Task<User> GetUserByEmailAndPass(string email, string password, CancellationToken cancellationToken);
+        Task<User> GetUserByEmailAndPass(string username, string password, CancellationToken cancellationToken);
 
         Task AddAsync(User user,string password, CancellationToken cancellationToken);
     }

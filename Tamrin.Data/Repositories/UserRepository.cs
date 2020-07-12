@@ -16,17 +16,17 @@ namespace Tamrin.Data.Repositories
         {
         }
 
-        public async Task<User> GetUserByEmailAndPass(string email, string password, CancellationToken cancellationToken)
+        public async Task<User> GetUserByEmailAndPass(string username, string password, CancellationToken cancellationToken)
         {
-            var user = await Table.SingleOrDefaultAsync(u => u.Email == email.Trim().ToLower(), cancellationToken: cancellationToken);
+            var user = await Table.SingleOrDefaultAsync(u => u.UserName == username.Trim().ToLower(), cancellationToken: cancellationToken);
             if (user == null)
-                throw new NotFoundException("کاربری با این ایمیل یافت نشد");
+                throw new NotFoundException("کاربری با این نام کاربری یافت نشد");
 
             if (!user.EmailConfirmed)
                 throw new NotFoundException("حساب کاربری شما غیر فعال است.لطفا از طریق لینکی که برای ایمیل شما ارسال شده است، حساب کاربری خود را فعال کنید");
 
             if (user.IsDeleted)
-                throw new NotFoundException("حساب کاربری شما توسط مدیریت غیر فعال شده است، لطفا از طریق فرم تماس با ما پیگیری کنید.");
+                throw new NotFoundException("حساب کاربری شما توسط مدیریت غیر فعال شده است، لطفا از طریق پشتیبانی پیگیری کنید.");
 
             if (user.LockoutEnd != null && user.LockoutEnd > DateTime.Now)
             {
