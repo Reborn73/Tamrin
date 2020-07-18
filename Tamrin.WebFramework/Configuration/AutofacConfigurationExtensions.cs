@@ -4,6 +4,7 @@ using Tamrin.Data;
 using Tamrin.Data.Contracts;
 using Tamrin.Data.Repositories;
 using Tamrin.Entities.Common;
+using Tamrin.Services.DataInitializer;
 using Tamrin.Services.Services.Contracts;
 
 namespace Tamrin.WebFramework.Configuration

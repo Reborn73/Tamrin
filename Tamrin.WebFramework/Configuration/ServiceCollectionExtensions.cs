@@ -6,8 +6,6 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.IdentityModel.Tokens;
-using Newtonsoft.Json.Converters;
-using Newtonsoft.Json.Serialization;
 using System;
 using System.Linq;
 using System.Net;
@@ -109,10 +107,9 @@ namespace Tamrin.WebFramework.Configuration
             services.AddControllers(options =>
             {
                 options.Filters.Add(new AuthorizeFilter()); //Apply AuthorizeFilter as global filter to all actions
-            }).AddNewtonsoftJson(option =>
+            }).AddJsonOptions(options =>
             {
-                //option.SerializerSettings.Formatting = Newtonsoft.Json.Formatting.Indented;
-                option.SerializerSettings.NullValueHandling = Newtonsoft.Json.NullValueHandling.Ignore;
+                options.JsonSerializerOptions.IgnoreNullValues = true;
             });
         }
 

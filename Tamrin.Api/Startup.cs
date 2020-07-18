@@ -18,13 +18,13 @@ namespace Tamrin.Api
         public Startup(IConfiguration configuration)
         {
             Configuration = configuration;
-            _siteSettings = Configuration.GetSection(nameof(Common.SiteSettings)).Get<SiteSettings>();
+            _siteSettings = Configuration.GetSection(nameof(SiteSettings)).Get<SiteSettings>();
         }
 
         public void ConfigureServices(IServiceCollection services)
         {
             services.InitializeAutoMapper();
-            services.Configure<SiteSettings>(Configuration.GetSection(nameof(Common.SiteSettings)));
+            services.Configure<SiteSettings>(Configuration.GetSection(nameof(SiteSettings)));
             services.AddMinimalMvc();
             services.AddDbContext(Configuration);
             services.Configure<IISServerOptions>(options => { options.AllowSynchronousIO = true; });
@@ -39,6 +39,8 @@ namespace Tamrin.Api
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
         {
+            app.InitialDatabaseAndData();
+
             app.UseCustomExceptionHandlerMiddleware();
 
             app.UseHsts(env);
